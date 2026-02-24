@@ -187,55 +187,41 @@ header h1 {
 .bubble.show { opacity: 1; }
 
 /* =========================
-   CHAOTIC KITTEN (GIF)
+   MEME CAT (ALWAYS VISIBLE)
    ========================= */
-.chaotic-kitten{
+.meme-cat{
   position: fixed;
   bottom: 22px;
-  left: -160px;
-  width: 120px;
+  right: 26px;
+  width: 130px;
   z-index: 1000;
   pointer-events: none;
-  opacity: 0;
-  transform: rotate(-10deg);
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+  opacity: .96;
+  animation: catFloat 5.2s ease-in-out infinite;
+  filter: drop-shadow(0 18px 28px rgba(0,0,0,0.12));
 }
 
-.chaotic-kitten img{
+.meme-cat img{
   width: 100%;
-  border-radius: 12px;
+  border-radius: 14px;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.10);
 }
 
-/* dramatic runway dash */
-@keyframes kittenDash{
-  0%{
-    left: -160px;
-    opacity: 0;
-    transform: rotate(-12deg) scale(0.9);
-  }
-  10%{
-    opacity: 1;
-  }
-  40%{
-    transform: rotate(8deg) scale(1.05);
-  }
-  90%{
-    opacity: 1;
-  }
-  100%{
-    left: 110%;
-    opacity: 0;
-    transform: rotate(-6deg) scale(0.95);
-  }
+/* gentle float so it feels alive */
+@keyframes catFloat{
+  0%{ transform: translateY(0px) rotate(-1deg); }
+  50%{ transform: translateY(-9px) rotate(1deg); }
+  100%{ transform: translateY(0px) rotate(-1deg); }
 }
 
 @media (max-width: 600px) {
   .card { padding: 60px 30px; }
   .actions { flex-direction: column; gap: 10px; }
 
-  .chaotic-kitten{
-    width: 92px;
-    bottom: 16px;
+  .meme-cat{
+    width: 96px;
+    right: 14px;
+    bottom: 14px;
   }
 }
 </style>
@@ -266,9 +252,9 @@ header h1 {
   <div class="bubble" id="bubble"></div>
 </div>
 
-<!-- Chaotic Kitten -->
-<div class="chaotic-kitten" id="chaoticKitten" aria-hidden="true">
-  <img src="https://media.giphy.com/media/v6aOjy0Qo1fIA/giphy.gif" alt="funny kitten">
+<!-- MEME CAT (change this GIF to any meme cat you want) -->
+<div class="meme-cat" aria-hidden="true">
+  <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="meme cat">
 </div>
 
 <script>
@@ -303,31 +289,7 @@ function updateMode(type, btn) {
     bubble.textContent = list[Math.floor(Math.random() * list.length)];
     bubble.classList.add('show');
   }, 300);
-
-  // EXTRA chaos when clicking Between Us
-  if (type === "us") unleashKitten();
 }
-
-/* =========================
-   CHAOTIC KITTEN BEHAVIOR
-   ========================= */
-const kitten = document.getElementById("chaoticKitten");
-
-function unleashKitten(){
-  if (!kitten) return;
-  kitten.style.animation = "none";
-  void kitten.offsetWidth;
-  kitten.style.animation = "kittenDash 4s cubic-bezier(0.77, 0, 0.175, 1) forwards";
-}
-
-/* Random elegant chaos (15–27 seconds) */
-(function randomKittenChaos(){
-  const delay = Math.random() * 12000 + 15000;
-  setTimeout(() => {
-    unleashKitten();
-    randomKittenChaos();
-  }, delay);
-})();
 
 // Initial trigger
 updateMode('sit', document.getElementById('tab-sit'));

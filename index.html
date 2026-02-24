@@ -13,17 +13,17 @@
   /* Luxury Color Palette: Champagne, Silk, and Soft Rose */
   --bg-silk: #fcfaf8;
   --bg-champagne: #f4eee8;
-  
+
   --gold-leaf: #c5a47e;
   --soft-rose: #e8d5d5;
-  
+
   --glass-white: rgba(255, 255, 255, 0.85);
   --text-rich: #1a1a1a;
   --text-gold: #967c5a;
-  
+
   --border-gold: rgba(197, 164, 126, 0.3);
   --shadow-luxe: 0 30px 80px rgba(0, 0, 0, 0.05);
-  
+
   --accent-glow: rgba(224, 195, 161, 0.2);
 }
 
@@ -37,7 +37,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   color: var(--text-rich);
   overflow: hidden;
-  background: 
+  background:
     radial-gradient(circle at 10% 10%, var(--soft-rose), transparent 40%),
     radial-gradient(circle at 90% 90%, var(--accent-glow), transparent 40%),
     linear-gradient(135deg, var(--bg-silk), var(--bg-champagne));
@@ -186,9 +186,57 @@ header h1 {
 
 .bubble.show { opacity: 1; }
 
+/* =========================
+   CHAOTIC KITTEN (GIF)
+   ========================= */
+.chaotic-kitten{
+  position: fixed;
+  bottom: 22px;
+  left: -160px;
+  width: 120px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transform: rotate(-10deg);
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+}
+
+.chaotic-kitten img{
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* dramatic runway dash */
+@keyframes kittenDash{
+  0%{
+    left: -160px;
+    opacity: 0;
+    transform: rotate(-12deg) scale(0.9);
+  }
+  10%{
+    opacity: 1;
+  }
+  40%{
+    transform: rotate(8deg) scale(1.05);
+  }
+  90%{
+    opacity: 1;
+  }
+  100%{
+    left: 110%;
+    opacity: 0;
+    transform: rotate(-6deg) scale(0.95);
+  }
+}
+
 @media (max-width: 600px) {
   .card { padding: 60px 30px; }
   .actions { flex-direction: column; gap: 10px; }
+
+  .chaotic-kitten{
+    width: 92px;
+    bottom: 16px;
+  }
 }
 </style>
 </head>
@@ -197,7 +245,7 @@ header h1 {
 
 <div class="card">
   <div class="card-border"></div>
-  
+
   <header>
     <h1>The Absence</h1>
     <div class="script">Collection by Aomsin</div>
@@ -216,6 +264,11 @@ header h1 {
   </div>
 
   <div class="bubble" id="bubble"></div>
+</div>
+
+<!-- Chaotic Kitten -->
+<div class="chaotic-kitten" id="chaoticKitten" aria-hidden="true">
+  <img src="https://media.giphy.com/media/v6aOjy0Qo1fIA/giphy.gif" alt="funny kitten">
 </div>
 
 <script>
@@ -244,13 +297,37 @@ function updateMode(type, btn) {
   // Update Text with soft fade
   const bubble = document.getElementById('bubble');
   bubble.classList.remove('show');
-  
+
   setTimeout(() => {
     const list = content[type];
     bubble.textContent = list[Math.floor(Math.random() * list.length)];
     bubble.classList.add('show');
   }, 300);
+
+  // EXTRA chaos when clicking Between Us
+  if (type === "us") unleashKitten();
 }
+
+/* =========================
+   CHAOTIC KITTEN BEHAVIOR
+   ========================= */
+const kitten = document.getElementById("chaoticKitten");
+
+function unleashKitten(){
+  if (!kitten) return;
+  kitten.style.animation = "none";
+  void kitten.offsetWidth;
+  kitten.style.animation = "kittenDash 4s cubic-bezier(0.77, 0, 0.175, 1) forwards";
+}
+
+/* Random elegant chaos (15–27 seconds) */
+(function randomKittenChaos(){
+  const delay = Math.random() * 12000 + 15000;
+  setTimeout(() => {
+    unleashKitten();
+    randomKittenChaos();
+  }, delay);
+})();
 
 // Initial trigger
 updateMode('sit', document.getElementById('tab-sit'));

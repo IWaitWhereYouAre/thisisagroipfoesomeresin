@@ -249,19 +249,6 @@ function betweenUs(){
   const pick = whispers[Math.floor(Math.random()*whispers.length)];
   showBubble(pick);
 }
-
-async function copyBubble(){
-  if(!bubble.textContent.trim()){
-    showBubble("Tap something first 🤍");
-    return;
-  }
-  try{
-    await navigator.clipboard.writeText(bubble.textContent);
-    showBubble("Saved 🤍");
-  }catch(e){
-    showBubble("Couldn’t copy (your browser blocked it) — but I still mean it 🤍");
-  }
-}
 </script>
 
 </body>
